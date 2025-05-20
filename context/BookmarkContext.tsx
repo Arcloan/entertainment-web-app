@@ -3,25 +3,45 @@
 import React, { createContext, useContext, useReducer, ReactNode } from "react";
 
 type State = {
-  bookmarks: Record<number, true>;
+  bookmarks: {
+    movie: Record<number, true>;
+    tv: Record<number, true>;
+  };
 };
 
 type Action =
-  | { type: "ADD"; payload: number }
-  | { type: "REMOVE"; payload: number };
+  | { type: "ADD"; payload: { id: number; mediaType: "movie" | "tv" } }
+  | { type: "REMOVE"; payload: { id: number; mediaType: "movie" | "tv" } };
 
 const initialState: State = {
-  bookmarks: {},
+  bookmarks: {
+    movie: {},
+    tv: {},
+  },
 };
 
 function reducer(state: State, action: Action): State {
+  const { mediaType, id } = action.payload;
   switch (action.type) {
     case "ADD":
-      return { bookmarks: { ...state.bookmarks, [action.payload]: true } };
+      return {
+        bookmarks: {
+          ...state.bookmarks,
+          [mediaType]: {
+            ...state.bookmarks[mediaType],
+            [id]: true,
+          },
+        },
+      };
     case "REMOVE":
-      const newBookmarks = { ...state.bookmarks };
-      delete newBookmarks[action.payload];
-      return { bookmarks: newBookmarks };
+      const updated = { ...state.bookmarks[mediaType] };
+      delete updated[id];
+      return {
+        bookmarks: {
+          ...state.bookmarks,
+          [mediaType]: updated,
+        },
+      };
     default:
       return state;
   }
@@ -42,4 +62,15 @@ export const BookmarkProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useBookmark = () => useContext(BookmarkContext);
+export const useBookmark = () => {
+  const { state, dispatch } = useContext(BookmarkContext);
+
+  const movieIds = Object.keys(state.bookmarks.movie).map(Number);
+  const tvIds = Object.keys(state.bookmarks.tv).map(Number);
+
+  return {
+    movieIds,
+    tvIds,
+    dispatch,
+  };
+};

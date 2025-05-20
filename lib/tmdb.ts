@@ -29,11 +29,22 @@ export async function searchMulti(query: string) {
   const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(query)}&include_adult=false`, {
     headers: {
       Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
-    },
-    next: { revalidate: 0 },
+    }
   });
 
   if (!res.ok) throw new Error("Search failed");
   const data = await res.json();
   return data.results;
+}
+
+export async function fetchItemById(id: number, type: "movie" | "tv") {
+  const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}`,
+    {headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+  const data = await res.json();
+  console.log(data);
+  if (!res.ok) throw new Error("Failed to fetch");
+  return res.json();
 }

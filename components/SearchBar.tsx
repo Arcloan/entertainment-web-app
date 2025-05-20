@@ -1,21 +1,22 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [query, setQuery] = useState(searchParams.get("query") || "");
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (query.trim()) {
-        router.push(`/?query=${encodeURIComponent(query.trim())}`);
+        router.push(`${pathname}?query=${encodeURIComponent(query.trim())}`);
       } else {
-        router.push(`/`);
+        router.push(`${pathname}`);
       }
-    }, 400); // debounce
+    }, 400);
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
@@ -28,7 +29,7 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="Search for movies or TV series"
-        value={query}
+        defaultValue={searchParams.get('query')?.toString()}
         onChange={(e) => setQuery(e.target.value)}
         className="bg-transparent border-none text-white placeholder-grey outline-none w-full"
       />

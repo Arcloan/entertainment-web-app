@@ -1,6 +1,4 @@
-import TrendingSlider from "@/components/TrendingSlider";
-import RecommendedSection from "@/components/RecommendedSection";
-import { searchMulti } from "@/lib/tmdb";
+import { searchMulti, fetchPopular } from "@/lib/tmdb";
 import RecommendedCard from "@/components/RecommendedCard";
 
 interface Props {
@@ -9,7 +7,8 @@ interface Props {
 
 export default async function HomePage({ searchParams }: Props) {
   const query = (await searchParams).query?.trim();
-  console.log(query);
+  const popular = await fetchPopular();
+  const moviesTrending = popular.filter((item: { media_type: string; }) => item.media_type === "movie");
   if (query) {
     const results : {
       id: number;
@@ -22,13 +21,12 @@ export default async function HomePage({ searchParams }: Props) {
       backdrop_path: string;
     }[] = await searchMulti(query);
     const movies = results.filter(r => r.media_type === "movie");
-    const tv = results.filter(r => r.media_type === "tv");
 
     return (
-      <main className="bg-darkestBlue min-h-screen p-4 md:p-6 lg:p-8 grid grid-cols-1">
-        <h2 className="text-xl mb-4">Search results for &quot;{query}&quot;</h2>
+      <main className="bg-darkestBlue p-4 md:p-6 lg:p-8 grid grid-cols-1">
+        <h2 className="text-xl h-max mb-8">Search results for &quot;{query}&quot;</h2>
 
-        <section className="mb-10">
+        <section className="mb-4">
           <h3 className="text-white text-lg mb-3">Movies</h3>
           {movies.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -41,18 +39,6 @@ export default async function HomePage({ searchParams }: Props) {
           )}
         </section>
 
-        <section>
-          <h3 className="text-white text-lg mb-3">TV Series</h3>
-          {tv.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {tv.map((item) => (
-                <RecommendedCard key={item.id} item={item} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-grey">No TV series results.</p>
-          )}
-        </section>
       </main>
     );
     }
@@ -60,8 +46,16 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <main className="bg-darkestBlue min-h-screen p-4 md:p-6 lg:p-8 grid grid-cols-1">
-      <TrendingSlider />
-      <RecommendedSection />
+      <section>
+            <div>
+              <h2 className="text-white text-xl mb-8">Movies</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 auto-cols-min">
+                {moviesTrending.map((movie: { id: number; backdrop_path: string, title?: string | undefined; name?: string | undefined; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
+                  <RecommendedCard key={movie.id} item={movie} />
+                ))}
+              </div>
+            </div>
+        </section>
     </main>
   );
 }

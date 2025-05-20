@@ -16,11 +16,11 @@ interface Props {
 }
 
 export default function TrendingCard({ item }: Props) {
-  const { state, dispatch } = useBookmark();
-  const isBookmarked = !!state.bookmarks[item.id];
+  const { movieIds, tvIds, dispatch  } = useBookmark();
+  const isBookmarked = (item.media_type == "tv" && tvIds.indexOf(item.id) !== -1) || (item.media_type == "movie" && movieIds.indexOf(item.id) !== -1);
 
   const toggleBookmark = () => {
-    dispatch({ type: isBookmarked ? "REMOVE" : "ADD", payload: item.id });
+    dispatch({ type: isBookmarked ? "REMOVE" : "ADD", payload: {id: item.id, mediaType: item.media_type as "movie" | "tv"} });
   };
 
   return (
@@ -32,10 +32,13 @@ export default function TrendingCard({ item }: Props) {
       />
       <button
         onClick={toggleBookmark}
-        className="group absolute top-2 right-4 p-2 bg-black/60 rounded-full hover:cursor-pointer hover:bg-white"
+        className="group absolute top-2 right-4 p-2 bg-black/60 rounded-full hover:cursor-pointer hover:bg-white z-10"
       >
         <img src={`${isBookmarked ? "/icon-bookmark-full.svg" : "icon-bookmark-empty.svg"}`} className="group-hover:filter-black" alt="" />
       </button>
+      <div className="hidden group-hover:grid absolute w-full h-[230px] rounded-lg top-0 left-0 bg-black/50">
+        <button className="absolute place-self-center text-white flex items-center gap-4 py-2 px-4 rounded-full bg-white/30 hover:cursor-pointer"><img src="/icon-play.svg" alt="" /><p>Play</p></button>
+      </div>
       <div className="p-2">
         <p className="text-sm text-grey flex gap-1 items-center">
           {item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4)} •{" "}

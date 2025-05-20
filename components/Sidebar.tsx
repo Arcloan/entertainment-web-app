@@ -1,6 +1,6 @@
 import Image from "next/image";
 import clsx from "clsx";
-import Link from "next/link";
+import NavIcon from "./NavIcon";
 
 export default function Sidebar({ className }: { className?: string }) {
   return (
@@ -25,8 +25,4 @@ export default function Sidebar({ className }: { className?: string }) {
       </div>
     </aside>
   );
-}
-
-function NavIcon({ icon, href }: { icon: React.ReactNode, href: string }) {
-  return <Link href={href} className="text-grey hover:text-white">{icon}</Link>;
 }
