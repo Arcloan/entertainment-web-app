@@ -9,10 +9,10 @@ export default function Sidebar({ className }: { className?: string }) {
         <Image src="/logo.svg" alt="Logo" width={32} height={32} />
       </div>
       <nav className="flex flex-col mt-8 gap-8 flex-1">
-        <NavIcon href="/" icon={<img src={"/icon-nav-home.svg"} className="hover:cursor-pointer"/>} />
-        <NavIcon href="/movies" icon={<img src={"/icon-nav-movies.svg"} className="hover:cursor-pointer"/>} />
-        <NavIcon href="/tv" icon={<img src={"/icon-nav-tv-series.svg"} className="hover:cursor-pointer"/>} />
-        <NavIcon href="/bookmarked" icon={<img src={"/icon-nav-bookmark.svg"} className="hover:cursor-pointer"/>} />
+        <NavIcon href="/" icon={<Image src={"/icon-nav-home.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
+        <NavIcon href="/movies" icon={<Image src={"/icon-nav-movies.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
+        <NavIcon href="/tv" icon={<Image src={"/icon-nav-tv-series.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
+        <NavIcon href="/bookmarked" icon={<Image src={"/icon-nav-bookmark.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
       </nav>
       <div className="">
         <Image

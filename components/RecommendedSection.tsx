@@ -12,8 +12,8 @@ export default async function RecommendedSection() {
       <div>
         <h2 className="text-white text-xl mb-4">Recommended Movies</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 auto-cols-min">
-          {movies.map((movie: { id: number; backdrop_path: string, title?: string | undefined; name?: string | undefined; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
-            <RecommendedCard key={movie.id} item={movie} />
+          {movies.map((movie: { id: number; backdrop_path: string, title: string ; name: string ; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
+            <RecommendedCard type={"movie"} key={movie.id} item={movie} />
           ))}
         </div>
       </div>
@@ -21,8 +21,8 @@ export default async function RecommendedSection() {
       <div className="mt-10">
         <h2 className="text-white text-xl mb-4">Recommended TV Series</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 auto-cols-min">
-          {tvShows.map((tv: { id: number; backdrop_path: string; title?: string | undefined; name?: string | undefined; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
-            <RecommendedCard key={tv.id} item={tv} />
+          {tvShows.map((tv: { id: number; backdrop_path: string; title: string ; name: string ; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
+            <RecommendedCard type={"tv"} key={tv.id} item={tv} />
           ))}
         </div>
       </div>

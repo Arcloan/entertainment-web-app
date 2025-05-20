@@ -40,11 +40,9 @@ export async function searchMulti(query: string) {
 export async function fetchItemById(id: number, type: "movie" | "tv") {
   const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}`,
     {headers: {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMGYyZmE3NDc2NjFiMWY3NDZiODE1YThlNTY4ZDkzMiIsIm5iZiI6MTc0NzA4MDk5NS4zMywic3ViIjoiNjgyMjU3MjMwNDIxZDE0ZWUyMmQxY2IzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.WWVExIG1oPeTPEWbtjUBFudLrDYPV3lV6QqI3LGntkA`,
     },
   });
-  const data = await res.json();
-  console.log(data);
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 }

@@ -2,6 +2,8 @@ import TrendingSlider from "@/components/TrendingSlider";
 import RecommendedSection from "@/components/RecommendedSection";
 import { searchMulti } from "@/lib/tmdb";
 import RecommendedCard from "@/components/RecommendedCard";
+import { SkeletonGrid } from "@/components/SkeletonGrid";
+import { Suspense } from "react";
 
 interface Props {
   searchParams: { query?: string };
@@ -9,12 +11,11 @@ interface Props {
 
 export default async function HomePage({ searchParams }: Props) {
   const query = (await searchParams).query?.trim();
-  console.log(query);
   if (query) {
     const results : {
       id: number;
-      title?: string;
-      name?: string;
+      title: string;
+      name: string;
       poster_path: string;
       release_date?: string;
       first_air_date?: string;
@@ -31,11 +32,13 @@ export default async function HomePage({ searchParams }: Props) {
         <section className="mb-10">
           <h3 className="text-white text-lg mb-3">Movies</h3>
           {movies.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <Suspense fallback={<SkeletonGrid />}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {movies.map((movie) => ( 
-                <RecommendedCard key={movie.id} item={movie} />
+                <RecommendedCard type={"movie"} key={movie.id} item={movie} />
               ))}
             </div>
+            </Suspense>
           ) : (
             <p className="text-grey">No movie results.</p>
           )}
@@ -44,11 +47,13 @@ export default async function HomePage({ searchParams }: Props) {
         <section>
           <h3 className="text-white text-lg mb-3">TV Series</h3>
           {tv.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <Suspense fallback={<SkeletonGrid />}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {tv.map((item) => (
-                <RecommendedCard key={item.id} item={item} />
+                <RecommendedCard type={"tv"} key={item.id} item={item} />
               ))}
             </div>
+            </Suspense>
           ) : (
             <p className="text-grey">No TV series results.</p>
           )}
@@ -60,8 +65,12 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <main className="bg-darkestBlue min-h-screen p-4 md:p-6 lg:p-8 grid grid-cols-1">
-      <TrendingSlider />
-      <RecommendedSection />
+      <Suspense fallback={<SkeletonGrid />}>
+        <TrendingSlider />
+      </Suspense>
+      <Suspense fallback={<SkeletonGrid />}>
+        <RecommendedSection />
+      </Suspense>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
+import React, { createContext, useContext, useReducer, ReactNode, useMemo } from "react";
 
 type State = {
   bookmarks: {
@@ -65,8 +65,15 @@ export const BookmarkProvider = ({ children }: { children: ReactNode }) => {
 export const useBookmark = () => {
   const { state, dispatch } = useContext(BookmarkContext);
 
-  const movieIds = Object.keys(state.bookmarks.movie).map(Number);
-  const tvIds = Object.keys(state.bookmarks.tv).map(Number);
+  const movieIds = useMemo(
+    () => Object.keys(state.bookmarks.movie).map(Number),
+    [state.bookmarks.movie]
+  );
+
+  const tvIds = useMemo(
+    () => Object.keys(state.bookmarks.tv).map(Number),
+    [state.bookmarks.tv]
+  );
 
   return {
     movieIds,

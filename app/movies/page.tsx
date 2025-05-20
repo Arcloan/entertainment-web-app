@@ -1,4 +1,6 @@
 import { searchMulti, fetchPopular } from "@/lib/tmdb";
+import { Suspense } from "react";
+import { SkeletonGrid } from "@/components/SkeletonGrid";
 import RecommendedCard from "@/components/RecommendedCard";
 
 interface Props {
@@ -12,8 +14,8 @@ export default async function HomePage({ searchParams }: Props) {
   if (query) {
     const results : {
       id: number;
-      title?: string;
-      name?: string;
+      title: string;
+      name: string;
       poster_path: string;
       release_date?: string;
       first_air_date?: string;
@@ -29,11 +31,13 @@ export default async function HomePage({ searchParams }: Props) {
         <section className="mb-4">
           <h3 className="text-white text-lg mb-3">Movies</h3>
           {movies.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {movies.map((movie) => ( 
-                <RecommendedCard key={movie.id} item={movie} />
-              ))}
+            <Suspense fallback={<SkeletonGrid />}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {movies.map((movie) => ( 
+                  <RecommendedCard type={"movie"} key={movie.id} item={movie} />
+                ))}
             </div>
+            </Suspense>
           ) : (
             <p className="text-grey">No movie results.</p>
           )}
@@ -50,9 +54,11 @@ export default async function HomePage({ searchParams }: Props) {
             <div>
               <h2 className="text-white text-xl mb-8">Movies</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 auto-cols-min">
-                {moviesTrending.map((movie: { id: number; backdrop_path: string, title?: string | undefined; name?: string | undefined; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
-                  <RecommendedCard key={movie.id} item={movie} />
-                ))}
+                <Suspense fallback={<SkeletonGrid />}>
+                  {moviesTrending.map((movie: { id: number; backdrop_path: string, title: string ; name: string ; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
+                    <RecommendedCard type={"movie"} key={movie.id} item={movie} />
+                  ))}
+                </Suspense>
               </div>
             </div>
         </section>
