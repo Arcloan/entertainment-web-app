@@ -3,12 +3,12 @@ import { Suspense } from "react";
 import { SkeletonGrid } from "@/components/SkeletonGrid";
 import RecommendedCard from "@/components/RecommendedCard";
 
-interface Props {
-  searchParams: { query?: string };
-}
-
-export default async function HomePage({ searchParams }: Props) {
-  const query = (await searchParams).query?.trim();
+export default async function HomePage(props: {
+  searchParams: Promise<{
+    query: string;
+  }>;
+}) {
+  const query = (await props.searchParams).query?.trim();
   const popular = await fetchPopular();
   const moviesTrending = popular.filter((item: { media_type: string; }) => item.media_type === "movie");
   if (query) {
