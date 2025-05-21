@@ -1,6 +1,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 import NavIcon from "./NavIcon";
+import { Suspense } from "react";
 
 export default function Sidebar({ className }: { className?: string }) {
   return (
@@ -9,10 +10,10 @@ export default function Sidebar({ className }: { className?: string }) {
         <Image src="/logo.svg" alt="Logo" width={32} height={32} />
       </div>
       <nav className="flex flex-col mt-8 gap-8 flex-1">
-        <NavIcon href="/" icon={<Image src={"/icon-nav-home.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
-        <NavIcon href="/movies" icon={<Image src={"/icon-nav-movies.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
-        <NavIcon href="/tv" icon={<Image src={"/icon-nav-tv-series.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
-        <NavIcon href="/bookmarked" icon={<Image src={"/icon-nav-bookmark.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} />
+        <Suspense><NavIcon href="/" icon={<Image src={"/icon-nav-home.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} /></Suspense>
+        <Suspense><NavIcon href="/movies" icon={<Image src={"/icon-nav-movies.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} /></Suspense>
+        <Suspense><NavIcon href="/tv" icon={<Image src={"/icon-nav-tv-series.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} /></Suspense>
+        <Suspense><NavIcon href="/bookmarked" icon={<Image src={"/icon-nav-bookmark.svg"} className="hover:cursor-pointer hover:filter-red" alt="" width={24} height={24}/>} /></Suspense>
       </nav>
       <div className="">
         <Image

@@ -15,6 +15,7 @@ import { ReactNode } from "react";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import SearchBar from "@/components/SearchBar";
+import { Suspense } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div className="flex-1 flex flex-col">
               <Topbar className="lg:hidden" />
               <main className="flex-1 px-4 md:px-6 lg:px-8 py-6">
-                <SearchBar />
+                <Suspense>
+                  <SearchBar />
+                </Suspense>
                 {children}
                 </main>
             </div>
