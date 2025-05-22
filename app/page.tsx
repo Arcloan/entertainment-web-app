@@ -32,13 +32,11 @@ export default async function HomePage(props: {
         <section className="mb-10">
           <h3 className="text-white text-lg mb-3">Movies</h3>
           {movies.length > 0 ? (
-            <Suspense fallback={<SkeletonGrid />}>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {movies.map((movie) => ( 
                 <RecommendedCard type={"movie"} key={movie.id} item={movie} />
               ))}
             </div>
-            </Suspense>
           ) : (
             <p className="text-grey">No movie results.</p>
           )}
@@ -47,13 +45,11 @@ export default async function HomePage(props: {
         <section>
           <h3 className="text-white text-lg mb-3">TV Series</h3>
           {tv.length > 0 ? (
-            <Suspense fallback={<SkeletonGrid />}>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {tv.map((item) => (
                 <RecommendedCard type={"tv"} key={item.id} item={item} />
               ))}
             </div>
-            </Suspense>
           ) : (
             <p className="text-grey">No TV series results.</p>
           )}

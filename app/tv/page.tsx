@@ -1,7 +1,5 @@
 import { searchMulti, fetchPopular } from "@/lib/tmdb";
 import RecommendedCard from "@/components/RecommendedCard";
-import { SkeletonGrid } from "@/components/SkeletonGrid";
-import { Suspense } from "react";
 
 export default async function HomePage(props: {
   searchParams: Promise<{
@@ -31,13 +29,11 @@ export default async function HomePage(props: {
         <section className="mb-4">
           <h3 className="text-white text-lg mb-3">Tv Series</h3>
           {tvSeries.length > 0 ? (
-              <Suspense fallback={<SkeletonGrid />}>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {tvSeries.map((tv) => ( 
                     <RecommendedCard type={"tv"} key={tv.id} item={tv} />
                   ))}
                 </div>
-              </Suspense>
           ) : (
             <p className="text-grey">No TV series results.</p>
           )}
@@ -54,11 +50,9 @@ export default async function HomePage(props: {
             <div>
               <h2 className="text-white text-xl mb-8">Tv Series</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 auto-cols-min">
-              <Suspense fallback={<SkeletonGrid />}>
                 {tvTrending.map((movie: { id: number; backdrop_path: string, title: string ; name: string ; poster_path: string; release_date?: string | undefined; first_air_date?: string | undefined; media_type: string; }) => (
                   <RecommendedCard type={"tv"} key={movie.id} item={movie} />
                 ))}
-              </Suspense>
               </div>
             </div>
         </section>
