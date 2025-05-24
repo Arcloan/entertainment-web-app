@@ -35,9 +35,9 @@ export default function BookmarkedPage() {
     async function fetchData() {
       try {
         const [movieResults, tvResults] = await Promise.all([await Promise.all(
-          movieIds.map((id) => fetchItemById(id, "movie"))
+          movieIds.map((id) => fetchItemById.bind(null, id, "movie")())
         ), await Promise.all(
-          tvIds.map((id) => fetchItemById(id, "tv"))
+          tvIds.map((id) => fetchItemById.bind(null, id, "tv")())
         )])
         setMovies(movieResults);
         setTvShows(tvResults);
@@ -61,7 +61,6 @@ export default function BookmarkedPage() {
   const filteredTvShows = tvShows.filter((tv) =>
     (tv.name || "").toLowerCase().includes(searchQuery)
   );
-  console.log(filteredMovies);
 
   return (
     <main className="p-4 md:p-6 lg:p-8 space-y-10">
